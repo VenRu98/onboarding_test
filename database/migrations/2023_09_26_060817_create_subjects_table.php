@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string("subject_id", 20);
             $table->string("subject_name");
             $table->integer("credit");
-            $table->string("subject_pre_required", 20);
+            $table->string("subject_pre_required", 20)->nullable();
             $table->timestamps();
         });
     }

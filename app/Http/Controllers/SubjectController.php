@@ -2,28 +2,22 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreSubjectRequest;
 use App\Models\Subject;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Inertia\Inertia;
 use Yajra\DataTables\Facades\DataTables;
 
 class SubjectController extends Controller
 {
 
-    public function get_all_data()
+    public function get_all_data(Request $request)
     {
-        $data = Subject::all();
-        return Datatables::of($data)
-            ->addIndexColumn()
-            ->addColumn('action', function ($row) {
-                $btn = `
-                    <a href="javascript:void(0)" class="edit btn btn-warning btn-sm">Edit</a>
-                    <a href="javascript:void(0)" class="edit btn btn-danger btn-sm">Delete</a>
-                `;
-                return $btn;
-            })
-            ->rawColumns(['action'])
-            ->make(true);
+        if ($request->ajax()) {
+            $datas = Subject::paginate($request->per_page ?? 5);
+            return $datas;
+        }
     }
 
     /**
@@ -31,26 +25,31 @@ class SubjectController extends Controller
      */
     public function index()
     {
-        $subjects = Subject::all();
+        $subject_ids = Subject::all()->pluck("subject_id");
+        Log::warning($subject_ids);
         return Inertia::render('Subject/SubjectPage', [
-            'subjects' => $subjects,
+            'subject_ids' => $subject_ids,
         ]);
     }
 
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(Request $request)
     {
-        //
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreSubjectRequest $request)
     {
-        //
+        $subject = new Subject();
+        $subject->subject_id = $request->subject_id;
+        $subject->subject_name = $request->subject_name;
+        $subject->credit = $request->credit;
+        $subject->subject_pre_required = $request->subject_pre_required ?? null;
+        $subject->save();
     }
 
     /**
@@ -58,7 +57,8 @@ class SubjectController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $subject = Subject::findOrFail($id);
+        return $subject;
     }
 
     /**
@@ -74,7 +74,12 @@ class SubjectController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $subject = Subject::findOrFail($id);
+        $subject->subject_id = $request->subject_id;
+        $subject->subject_name = $request->subject_name;
+        $subject->credit = $request->credit;
+        $subject->subject_pre_required = $request->subject_pre_required ?? null;
+        $subject->save();
     }
 
     /**
@@ -82,6 +87,7 @@ class SubjectController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $subject = Subject::findOrFail($id);
+        $subject->delete();
     }
 }

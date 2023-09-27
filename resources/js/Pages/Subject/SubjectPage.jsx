@@ -2,6 +2,7 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head } from '@inertiajs/react';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
+import DataTable from 'react-data-table-component';
 
 const columns = [
     {
@@ -26,7 +27,7 @@ export default function UserPage({ auth }) {
 
     const [subjects, setSubjects] = useState({});
     const [page, setPage] = useState(1);
-    // const countPerPage = 3;
+    const countPerPage = 3;
 
     const getSubjectList = () => {
         axios.get(`/subject/get_all_data?page=${page}&per_page=${countPerPage}&delay=1`).then(res => {
@@ -45,21 +46,27 @@ export default function UserPage({ auth }) {
             user={auth.user}
             header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Subject</h2>}
         >
-            <Head title="Subject" />
-            {/* <DataTable
-                title="Subject"
+            <div className="row">
+                <div className="col">
+                    <Head title="Subject" />
+                </div>
+                <div className="col">
+                    <button className="btn btn-primary">Add</button>
+                </div>
+            </div>
+            <DataTable
                 columns={columns}
-                data={users.data}
+                data={subjects.data}
                 highlightOnHover
                 pagination
                 paginationServer
-                paginationTotalRows={users.total}
+                paginationTotalRows={subjects.total}
                 paginationPerPage={countPerPage}
                 paginationComponentOptions={{
                     noRowsPerPage: true
                 }}
                 onChangePage={page => setPage(page)}
-            /> */}
+            />
         </AuthenticatedLayout>
 
     );

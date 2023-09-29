@@ -2,11 +2,11 @@
 
 namespace App\Http\Requests;
 
-use App\Models\Subject;
+use App\Models\Student;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
-class StoreSubjectRequest extends FormRequest
+class StoreStudentRequest extends FormRequest
 {
     /**
      * Get the validation rules that apply to the request.
@@ -16,9 +16,10 @@ class StoreSubjectRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'subject_id' => ['string', 'required', Rule::unique(Subject::class, 'subject_id')],
-            'subject_name' => ['string', 'required'],
-            'credit' => ['int', 'required'],
+            'student_id' => ['string', 'required', Rule::unique(Student::class, 'student_id')],
+            'student_name' => ['string', 'required'],
+            'date_of_birth' => ['date', 'required'],
+            'year_entrance' => ['int', 'required'],
         ];
     }
 }

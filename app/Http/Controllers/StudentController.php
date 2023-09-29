@@ -2,68 +2,64 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreStudentRequest;
 use App\Models\Student;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Validation\Rule;
 use Inertia\Inertia;
 
 class StudentController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    public function get_all_data(Request $request)
+    {
+        if ($request->ajax()) {
+            $datas = Student::select("*");
+            if (count($request->sort) != 0) {
+                $column_name =   $request->sort["sortField"];
+                $sort_direction =   $request->sort["direction"];
+                $datas = $datas->orderBy($column_name, $sort_direction);
+            }
+            $datas = $datas->paginate($request->per_page ?? 5);
+            return $datas;
+        }
+    }
     public function index()
     {
-        $students = Student::all();
-        return Inertia::render('Student/StudentPage', [
-            'students' => $students,
-        ]);
+        return Inertia::render('MasterStudent/MasterStudentPage');
     }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    public function store(StoreStudentRequest $request)
     {
-        //
+        $student = new Student();
+        $student->student_id = $request->student_id;
+        $student->student_name = $request->student_name;
+        $student->date_of_birth = $request->date_of_birth;
+        $student->year_entrance = $request->year_entrance;
+        $student->save();
     }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     */
     public function show(string $id)
     {
-        //
+        $student = Student::findOrFail($id);
+        return $student;
     }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, string $id)
     {
-        //
+        $student = Student::findOrFail($id);
+        $request->validate([
+            'student_id' => ['string', 'required', Rule::unique(Student::class, 'student_id')->ignore($student->student_id, "student_id")],
+            'student_name' => ['string', 'required'],
+            'date_of_birth' => ['date', 'required'],
+            'year_entrance' => ['int', 'required'],
+        ]);
+        $student->student_id = $request->student_id;
+        $student->student_name = $request->student_name;
+        $student->date_of_birth = $request->date_of_birth;
+        $student->year_entrance = $request->year_entrance;
+        $student->save();
     }
-
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(string $id)
     {
-        //
+        $student = Student::findOrFail($id);
+        $student->delete();
     }
 }

@@ -1,15 +1,13 @@
 
 import InputLabel from '@/Components/InputLabel';
-import { usePage } from '@inertiajs/react';
-export default function TemplateSelectLabel({ title, id, selected, handle, self }) {
-    const listSubjectId = usePage().props.subject_ids;
+export default function TemplateSelectLabel({ title, id, selected, handle, self, list, listValue }) {
     return (
         <div className="mt-6">
             <InputLabel htmlFor={id} value={title} />
             <select name={id} id={id} className="select select-bordered w-full max-w-xs" onChange={handle}>
                 <option key={0} value={""}></option>
                 {
-                    listSubjectId
+                    list
                         .filter((element) => {
                             return element != self;
                         })

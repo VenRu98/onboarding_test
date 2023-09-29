@@ -33,15 +33,15 @@ class Subject extends Model
 
     public function subject_child()
     {
-        return $this->hasMany(Subject::class, 'subject_pre_required');
+        return $this->hasMany(Subject::class, 'subject_pre_required', 'subject_id');
     }
     public function subject_parent()
     {
-        return $this->belongsTo(Subject::class, 'subject_pre_required');
+        return $this->belongsTo(Subject::class, 'subject_pre_required', 'subject_id');
     }
 
     public function subject_enrollment()
     {
-        return $this->hasMany(Enrollment::class,'subject_id');
+        return $this->hasMany(Enrollment::class, 'subject_id', 'subject_id');
     }
 }

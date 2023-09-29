@@ -33,10 +33,10 @@ class Enrollment extends Model
 
     public function enrollment_student()
     {
-        return $this->belongsTo(Student::class, 'student_id');
+        return $this->belongsTo(Student::class, 'student_id','student_id');
     }
-    public function enrollment_subjet()
+    public function enrollment_subject()
     {
-        return $this->belongsTo(Subject::class, 'subject_id');
+        return $this->belongsTo(Subject::class, 'subject_id','subject_id');
     }
 }

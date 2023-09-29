@@ -2,12 +2,14 @@
 
 namespace App\Http\Requests;
 
-use App\Models\Subject;
+use App\Models\User;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\Rule;
 
-class StoreSubjectRequest extends FormRequest
+class StoreUserRequest extends FormRequest
 {
+
     /**
      * Get the validation rules that apply to the request.
      *
@@ -16,9 +18,10 @@ class StoreSubjectRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'subject_id' => ['string', 'required', Rule::unique(Subject::class, 'subject_id')],
-            'subject_name' => ['string', 'required'],
-            'credit' => ['int', 'required'],
+            'user_id' => ['string', 'required', Rule::unique(User::class, 'user_id')],
+            'name' => ['string', 'required', Rule::unique(User::class, 'name')],
+            'password' => ['string', 'required'],
+            'flag_active' => ['bool', 'required'],
         ];
     }
 }

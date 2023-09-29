@@ -1,10 +1,10 @@
 
 import InputLabel from '@/Components/InputLabel';
-export default function TemplateSelectLabel({ title, id, selected, handle, self, list, listValue }) {
+export default function TemplateSelectLabel({ title, id, selected, handle, self, list }) {
     return (
         <div className="mt-6">
             <InputLabel htmlFor={id} value={title} />
-            <select name={id} id={id} className="select select-bordered w-full max-w-xs" onChange={handle}>
+            <select disabled={disabled} name={id} id={id} className="select select-bordered w-full max-w-xs" onChange={handle}>
                 <option key={0} value={""}></option>
                 {
                     list

@@ -18,7 +18,8 @@ return new class extends Migration
             $table->date('enroll_start_date');
             $table->date('enroll_end_date');
             $table->string('status', 20);
-            $table->string('grade',1);
+            $table->string('grade', 1);
+            $table->softDeletes();
             $table->timestamps();
         });
     }

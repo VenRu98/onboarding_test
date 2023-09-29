@@ -6,7 +6,6 @@ use App\Models\Enrollment;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
 use Inertia\Inertia;
 
 class ReportController extends Controller
@@ -14,7 +13,6 @@ class ReportController extends Controller
     public function get_all_data(Request $request)
     {
         if ($request->ajax()) {
-            Log::warning($request->post());
             $datas = Enrollment::select("*")->with('enrollment_student', 'enrollment_subject');
             $filterTextYear = $request->search["filterTextYear"];
             $filterTextStudentName = $request->search["filterTextStudentName"];
@@ -42,16 +40,12 @@ class ReportController extends Controller
             }
             $datas = $datas->paginate($request->per_page ?? 5);
             $datas->getCollection()->transform(function ($element) {
-                $element->setAttribute('subject_name', $element->enrollment_subject->subject_name);
-                $element->setAttribute('student_name', $element->enrollment_student->student_name);
+                $element->setAttribute('subject_name', $element->enrollment_subject?->subject_name ?? "");
+                $element->setAttribute('student_name', $element->enrollment_student?->student_name ?? "");
                 $element->setAttribute('year', Carbon::parse($element->enroll_start_date)->year);
                 $element->setHidden(['enrollment_student', 'enrollment_subjet']);
                 return $element;
             });
-
-            // foreach ($datas->items() as $element) {
-            //     
-            // }
             return $datas;
         }
     }

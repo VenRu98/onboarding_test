@@ -32,7 +32,6 @@ class UserController extends Controller
     }
     public function store(StoreUserRequest $request)
     {
-        Log::warning($request->post());
         $user = new User();
         $user->user_id = $request->user_id;
         $user->name = $request->name;

@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string("student_name");
             $table->date("date_of_birth");
             $table->integer("year_entrance");
+            $table->softDeletes();
             $table->timestamps();
         });
     }

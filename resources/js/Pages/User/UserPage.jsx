@@ -199,6 +199,7 @@ export default function UserPage({ auth }) {
                                     :
                                     <>
                                         <TemplateInputLabel
+                                            readOnly={textModal == "Edit"}
                                             id={"user_id"}
                                             title={"User Id"}
                                             handle={(e) => setData("user_id", e.target.value)}

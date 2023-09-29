@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * App\Models\Enrollment
@@ -29,14 +30,14 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Enrollment extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
     public function enrollment_student()
     {
-        return $this->belongsTo(Student::class, 'student_id','student_id');
+        return $this->belongsTo(Student::class, 'student_id', 'student_id')->withTrashed();
     }
     public function enrollment_subject()
     {
-        return $this->belongsTo(Subject::class, 'subject_id','subject_id');
+        return $this->belongsTo(Subject::class, 'subject_id', 'subject_id')->withTrashed();
     }
 }

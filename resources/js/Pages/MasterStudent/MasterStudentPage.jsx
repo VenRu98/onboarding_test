@@ -204,6 +204,7 @@ export default function MasterStudentPage({ auth }) {
                                     :
                                     <>
                                         <TemplateInputLabel
+                                            readOnly={textModal == "Edit"}
                                             id={"student_id"}
                                             title={"Student Id"}
                                             handle={(e) => setData("student_id", e.target.value)}

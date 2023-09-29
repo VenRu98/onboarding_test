@@ -205,6 +205,7 @@ export default function SubjectPage({ auth }) {
                                     :
                                     <>
                                         <TemplateInputLabel
+                                            readOnly={textModal == "Edit"}
                                             id={"subject_id"}
                                             title={"Subject ID"}
                                             handle={(e) => setData("subject_id", e.target.value)}

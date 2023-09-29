@@ -142,7 +142,6 @@ export default function EnrollmentAndGradingPage({ auth }) {
         data.status = "";
         data.grade = "";
     };
-
     return (
         <AuthenticatedLayout
             user={auth.user}
@@ -189,14 +188,6 @@ export default function EnrollmentAndGradingPage({ auth }) {
                                 selector: (row, i) => row.grade,
                                 sortable: true,
                                 sortField: 'grade',
-                            },
-                            {
-                                name: 'Action',
-                                cell: (row) =>
-                                    <>
-                                        <button className='btn bg-warning' onClick={showEditEnrollment} id={row.id}>Edit</button>
-                                        <button className='btn bg-error' onClick={showDeleteEnrollment} id={row.id}>Delete</button>
-                                    </>,
                             }]
                         }
                         data={subjects.data}
